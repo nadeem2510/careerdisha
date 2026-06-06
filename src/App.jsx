@@ -15,6 +15,7 @@ import Careers2030 from './pages/Careers2030'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import ParentPortal from './pages/ParentPortal'
+import AdminPanel from './pages/AdminPanel'
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/parents" element={<ParentPortal />} />
+          <Route path="/admin" element={<AdminPanel />} />
         </Routes>
         <Footer />
       </div>
