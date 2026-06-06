@@ -470,16 +470,25 @@ export default function ClassesPortal() {
             {[
               { id: 'classes', label: '🏫 Find Classes' },
               { id: 'loans', label: '🏦 Education Loan' },
-              { id: 'register', label: '📋 Register Your Institute' },
+              { id: 'register', label: '📋 Register Your Institute', link: '/institute/register' },
             ].map(tab => (
-              <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{
-                padding: '14px 24px', border: 'none', cursor: 'pointer',
-                fontWeight: 600, fontSize: 14,
-                background: activeTab === tab.id ? '#fff' : 'transparent',
-                color: activeTab === tab.id ? '#1E40AF' : '#BFDBFE',
-                borderRadius: activeTab === tab.id ? '12px 12px 0 0' : 0,
-                transition: 'all 0.2s',
-              }}>{tab.label}</button>
+              tab.link ? (
+                <a key={tab.id} href={tab.link} style={{
+                  padding: '14px 24px', border: 'none', cursor: 'pointer',
+                  fontWeight: 600, fontSize: 14, textDecoration: 'none',
+                  background: 'transparent', color: '#BFDBFE', display: 'inline-block',
+                  transition: 'all 0.2s',
+                }}>{tab.label}</a>
+              ) : (
+                <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{
+                  padding: '14px 24px', border: 'none', cursor: 'pointer',
+                  fontWeight: 600, fontSize: 14,
+                  background: activeTab === tab.id ? '#fff' : 'transparent',
+                  color: activeTab === tab.id ? '#1E40AF' : '#BFDBFE',
+                  borderRadius: activeTab === tab.id ? '12px 12px 0 0' : 0,
+                  transition: 'all 0.2s',
+                }}>{tab.label}</button>
+              )
             ))}
           </div>
         </div>

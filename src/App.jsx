@@ -16,6 +16,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import ParentPortal from './pages/ParentPortal'
 import AdminPanel from './pages/AdminPanel'
+import InstituteRegister from './pages/InstituteRegister'
 
 export default function App() {
   return (
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/parents" element={<ParentPortal />} />
           <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/institute/register" element={<InstituteRegister />} />
         </Routes>
         <Footer />
       </div>
