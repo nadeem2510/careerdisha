@@ -2,15 +2,42 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const steps = [
-  { id: 1, label: 'Basic Info', icon: '🏫' },
-  { id: 2, label: 'Courses & Batches', icon: '📚' },
-  { id: 3, label: 'Faculty & Results', icon: '👨‍🏫' },
-  { id: 4, label: 'Photos & Media', icon: '📸' },
-  { id: 5, label: 'Fees & Plans', icon: '💰' },
+  { id: 1, label: 'Brand Info', icon: '🏢' },
+  { id: 2, label: 'Branches / Cities', icon: '📍' },
+  { id: 3, label: 'Courses & Results', icon: '📚' },
+  { id: 4, label: 'Faculty & Photos', icon: '👨‍🏫' },
+  { id: 5, label: 'Fees & Plan', icon: '💰' },
 ]
 
 const examOptions = ['NEET', 'JEE Mains', 'JEE Advanced', 'Foundation (Class 8-10)', 'NEET + JEE Both', 'Dropper Batch', 'MHT-CET', 'BITSAT', 'KVPY', 'Olympiad']
 const facilityOptions = ['AC Classrooms', 'Library', 'Hostel', 'Online Backup Classes', 'Test Series', 'Doubt Sessions', 'Study Material', 'Parent App', 'CCTV Campus', 'Cafeteria', 'Transport', 'Medical Facility', 'Counseling Support', 'Scholarship Tests']
+
+const indianCities = [
+  'Mumbai','Delhi','Bangalore','Hyderabad','Chennai','Kolkata','Pune','Ahmedabad',
+  'Jaipur','Surat','Lucknow','Kanpur','Nagpur','Indore','Bhopal','Patna','Vadodara',
+  'Nashik','Aurangabad','Kota','Jodhpur','Chandigarh','Coimbatore','Visakhapatnam',
+  'Agra','Varanasi','Allahabad','Ranchi','Guwahati','Mysore','Thiruvananthapuram',
+  'Kochi','Bhubaneswar','Dehradun','Jabalpur','Raipur','Amritsar','Ludhiana',
+  'Kolhapur','Solapur','Thane','Navi Mumbai','Noida','Gurgaon','Faridabad',
+  'Meerut','Rajkot','Vijayawada','Srinagar','Jammu','Other'
+]
+
+const indianStates = [
+  'Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat',
+  'Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh',
+  'Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab',
+  'Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand',
+  'West Bengal','Delhi','Jammu & Kashmir','Ladakh'
+]
+
+const emptyBranch = () => ({
+  city: '', state: '', area: '', address: '', pincode: '',
+  contactPerson: '', phone: '', whatsapp: '', email: '',
+  totalSeats: '', established: '',
+  batches: [{ name: '', exam: 'NEET', timing: '', days: 'Mon–Sat', seats: '', startDate: '', mode: 'Offline', fee: '' }],
+  facilities: [],
+  isHQ: false,
+})
 
 export default function InstituteRegister() {
   const [step, setStep] = useState(1)
@@ -18,16 +45,19 @@ export default function InstituteRegister() {
   const [logoPreview, setLogoPreview] = useState(null)
   const [galleryPreviews, setGalleryPreviews] = useState([])
   const [form, setForm] = useState({
-    // Basic Info
+    // Brand / Master Info
     name: '', ownerName: '', phone: '', whatsapp: '', email: '',
-    address: '', city: '', state: '', pincode: '',
-    established: '', totalStudents: '', website: '',
-    description: '',
-    // Courses
+    website: '', established: '', totalStudents: '',
+    description: '', tagline: '',
+    isChain: false,  // Single center or multiple cities
+    totalBranches: '1',
+    operatingIn: [],  // cities list for display
+    // Branches — each branch is a separate center
+    branches: [{ ...emptyBranch(), isHQ: true }],
+    // Courses (brand-level)
     exams: [],
-    batches: [{ name: '', timing: '', days: '', seats: '', startDate: '', mode: 'Offline' }],
-    // Faculty
-    faculty: [{ name: '', qualification: '', experience: '', subject: '', photo: null }],
+    // Faculty (brand-level)
+    faculty: [{ name: '', qualification: '', experience: '', subject: '' }],
     results2024: { neetTop: '', jeeTop: '', neetSelections: '', jeeSelections: '', totalSelections: '' },
     achievements: '',
     // Fees
@@ -42,15 +72,48 @@ export default function InstituteRegister() {
     plan: 'starter',
   })
 
+  const [activeBranch, setActiveBranch] = useState(0)
   const set = (key, val) => setForm(f => ({ ...f, [key]: val }))
+
   const toggleExam = (exam) => {
     const arr = form.exams.includes(exam) ? form.exams.filter(e => e !== exam) : [...form.exams, exam]
     set('exams', arr)
   }
-  const toggleFacility = (f) => {
-    const arr = form.facilities.includes(f) ? form.facilities.filter(x => x !== f) : [...form.facilities, f]
-    set('facilities', arr)
+
+  // Branch management
+  const addBranch = () => {
+    set('branches', [...form.branches, emptyBranch()])
+    setActiveBranch(form.branches.length)
   }
+  const removeBranch = (i) => {
+    if (form.branches.length === 1) return
+    const arr = form.branches.filter((_, idx) => idx !== i)
+    set('branches', arr)
+    setActiveBranch(Math.max(0, activeBranch - 1))
+  }
+  const updateBranchField = (branchIdx, key, val) => {
+    const arr = [...form.branches]
+    arr[branchIdx] = { ...arr[branchIdx], [key]: val }
+    set('branches', arr)
+  }
+  const toggleBranchFacility = (branchIdx, fac) => {
+    const branch = form.branches[branchIdx]
+    const arr = branch.facilities.includes(fac)
+      ? branch.facilities.filter(x => x !== fac)
+      : [...branch.facilities, fac]
+    updateBranchField(branchIdx, 'facilities', arr)
+  }
+  const addBranchBatch = (branchIdx) => {
+    const arr = [...form.branches]
+    arr[branchIdx].batches = [...arr[branchIdx].batches, { name: '', exam: 'NEET', timing: '', days: 'Mon–Sat', seats: '', startDate: '', mode: 'Offline', fee: '' }]
+    set('branches', arr)
+  }
+  const updateBranchBatch = (branchIdx, batchIdx, key, val) => {
+    const arr = [...form.branches]
+    arr[branchIdx].batches[batchIdx] = { ...arr[branchIdx].batches[batchIdx], [key]: val }
+    set('branches', arr)
+  }
+  const toggleFacility = (f) => toggleBranchFacility(activeBranch, f)
 
   const handleLogo = (e) => {
     const file = e.target.files[0]
@@ -148,44 +211,43 @@ export default function InstituteRegister() {
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '32px 24px' }}>
         <div style={{ background: '#fff', borderRadius: 20, padding: 32, border: '1px solid #E2E8F0', boxShadow: '0 4px 16px rgba(0,0,0,0.05)' }}>
 
-          {/* STEP 1 — Basic Info */}
+          {/* STEP 1 — Brand Info */}
           {step === 1 && (
             <div>
-              <h2 style={{ fontSize: 22, fontWeight: 800, color: '#0F172A', marginBottom: 4 }}>🏫 Basic Information</h2>
-              <p style={{ color: '#64748B', fontSize: 14, marginBottom: 28 }}>Institute ki basic details — students yahi dekhenge</p>
+              <h2 style={{ fontSize: 22, fontWeight: 800, color: '#0F172A', marginBottom: 4 }}>🏢 Brand / Institute Information</h2>
+              <p style={{ color: '#64748B', fontSize: 14, marginBottom: 24 }}>Ye brand-level info hai — sab branches pe apply hogi</p>
 
               {/* Logo Upload */}
-              <div style={{ marginBottom: 24 }}>
-                <label style={labelStyle}>Institute Logo / Photo *</label>
-                <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-                  <div style={{
-                    width: 90, height: 90, borderRadius: 16, border: '2px dashed #BFDBFE',
-                    background: logoPreview ? 'transparent' : '#EFF6FF',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    overflow: 'hidden', flexShrink: 0,
-                  }}>
-                    {logoPreview ? <img src={logoPreview} alt="logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 28 }}>🏫</span>}
-                  </div>
-                  <div>
-                    <label style={{ padding: '10px 20px', background: '#EFF6FF', color: '#1E40AF', borderRadius: 10, cursor: 'pointer', fontWeight: 600, fontSize: 13, display: 'inline-block' }}>
-                      📁 Upload Logo
-                      <input type="file" accept="image/*" onChange={handleLogo} style={{ display: 'none' }} />
-                    </label>
-                    <p style={{ fontSize: 12, color: '#94A3B8', marginTop: 6 }}>PNG, JPG — max 2MB. Square image preferred.</p>
+              <div style={{ marginBottom: 24, display: 'flex', gap: 20, alignItems: 'center' }}>
+                <div>
+                  <label style={labelStyle}>Brand Logo *</label>
+                  <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+                    <div style={{ width: 90, height: 90, borderRadius: 16, border: '2px dashed #BFDBFE', background: logoPreview ? 'transparent' : '#EFF6FF', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
+                      {logoPreview ? <img src={logoPreview} alt="logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: 28 }}>🏢</span>}
+                    </div>
+                    <div>
+                      <label style={{ padding: '10px 20px', background: '#EFF6FF', color: '#1E40AF', borderRadius: 10, cursor: 'pointer', fontWeight: 600, fontSize: 13, display: 'inline-block' }}>
+                        📁 Upload Logo
+                        <input type="file" accept="image/*" onChange={handleLogo} style={{ display: 'none' }} />
+                      </label>
+                      <p style={{ fontSize: 12, color: '#94A3B8', marginTop: 6 }}>Square logo — min 200×200px</p>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
                 {[
-                  { key: 'name', label: 'Institute Full Name *', placeholder: 'e.g. Aakash Study Center Pune' },
+                  { key: 'name', label: 'Institute / Brand Name *', placeholder: 'e.g. PhysicsWallah, Aakash, Allen' },
+                  { key: 'tagline', label: 'Tagline', placeholder: "e.g. 'Nurturing Tomorrow's Doctors'" },
                   { key: 'ownerName', label: 'Owner / Director Name *', placeholder: 'Full name' },
-                  { key: 'phone', label: 'Phone Number *', placeholder: '+91 98765 43210' },
-                  { key: 'whatsapp', label: 'WhatsApp Number', placeholder: 'Same as phone or different' },
-                  { key: 'email', label: 'Email Address *', placeholder: 'institute@email.com' },
-                  { key: 'website', label: 'Website (if any)', placeholder: 'www.yourinstitute.com' },
+                  { key: 'phone', label: 'HQ Phone *', placeholder: '+91 98765 43210' },
+                  { key: 'whatsapp', label: 'WhatsApp', placeholder: 'For student inquiries' },
+                  { key: 'email', label: 'Official Email *', placeholder: 'contact@institute.com' },
+                  { key: 'website', label: 'Website', placeholder: 'www.yourinstitute.com' },
                   { key: 'established', label: 'Established Year', placeholder: '2010' },
-                  { key: 'totalStudents', label: 'Total Students (All Time)', placeholder: '500' },
+                  { key: 'totalStudents', label: 'Total Students (All Branches)', placeholder: '5000' },
+                  { key: 'totalBranches', label: 'Total Centers / Branches', placeholder: '12' },
                 ].map(f => (
                   <div key={f.key}>
                     <label style={labelStyle}>{f.label}</label>
@@ -196,113 +258,232 @@ export default function InstituteRegister() {
                 ))}
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 16, marginBottom: 16 }}>
-                <div>
-                  <label style={labelStyle}>Full Address *</label>
-                  <input value={form.address} onChange={e => set('address', e.target.value)} placeholder="Street address, landmark" style={inputStyle} />
-                </div>
-                <div>
-                  <label style={labelStyle}>City *</label>
-                  <input value={form.city} onChange={e => set('city', e.target.value)} placeholder="Pune" style={inputStyle} />
-                </div>
-                <div>
-                  <label style={labelStyle}>Pincode</label>
-                  <input value={form.pincode} onChange={e => set('pincode', e.target.value)} placeholder="411001" style={inputStyle} />
-                </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={labelStyle}>About Your Institute * <span style={{ color: '#94A3B8', fontWeight: 400 }}>(Brand story, USP, methodology)</span></label>
+                <textarea value={form.description} onChange={e => set('description', e.target.value)} rows={4} placeholder="Apni institute ki journey, teaching philosophy, kya alag karta hai tumhein..." style={{ ...inputStyle, resize: 'vertical', fontFamily: 'inherit' }} />
               </div>
 
-              <div style={{ marginBottom: 16 }}>
-                <label style={labelStyle}>Institute Description * <span style={{ color: '#94A3B8', fontWeight: 400 }}>(Students ko dikhega — 100-200 words)</span></label>
-                <textarea value={form.description} onChange={e => set('description', e.target.value)} rows={4} placeholder="Apne institute ke baare mein likhein — specialization, teaching methodology, achievements, what makes you unique..." style={{ ...inputStyle, resize: 'vertical', fontFamily: 'inherit' }} />
-              </div>
+              {/* Single vs Chain Toggle */}
+              <div style={{ background: '#F8FAFC', borderRadius: 16, padding: 20, border: '1px solid #E2E8F0' }}>
+                <h3 style={{ fontWeight: 700, fontSize: 16, color: '#0F172A', marginBottom: 16 }}>📍 How many locations?</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+                  {[
+                    { val: false, icon: '🏫', title: 'Single Center', desc: 'Ek hi city mein, ek location', color: '#EFF6FF', accent: '#1E40AF' },
+                    { val: true, icon: '🏢', title: 'Multiple Cities (Chain)', desc: 'Multiple branches across India', color: '#FFFBEB', accent: '#D97706' },
+                  ].map(opt => (
+                    <div key={String(opt.val)} onClick={() => set('isChain', opt.val)} style={{
+                      padding: 20, borderRadius: 14, cursor: 'pointer',
+                      border: `2px solid ${form.isChain === opt.val ? opt.accent : '#E2E8F0'}`,
+                      background: form.isChain === opt.val ? opt.color : '#fff',
+                      transition: 'all 0.2s', textAlign: 'center',
+                    }}>
+                      <div style={{ fontSize: 36, marginBottom: 8 }}>{opt.icon}</div>
+                      <div style={{ fontWeight: 700, fontSize: 15, color: '#0F172A', marginBottom: 4 }}>{opt.title}</div>
+                      <div style={{ fontSize: 13, color: '#64748B' }}>{opt.desc}</div>
+                      {form.isChain === opt.val && <div style={{ color: opt.accent, fontWeight: 700, fontSize: 12, marginTop: 8 }}>✓ Selected</div>}
+                    </div>
+                  ))}
+                </div>
 
-              <div style={{ marginBottom: 8 }}>
-                <label style={labelStyle}>YouTube Channel Link</label>
-                <input value={form.youtubeChannel} onChange={e => set('youtubeChannel', e.target.value)} placeholder="https://youtube.com/@yourinstitute" style={inputStyle} />
+                {form.isChain && (
+                  <div style={{ marginTop: 16, background: '#FFFBEB', borderRadius: 12, padding: 14 }}>
+                    <p style={{ color: '#92400E', fontSize: 13, fontWeight: 500 }}>
+                      ✅ Multi-city mode ON — Next step mein har city ka alag branch add kar sakte ho with city-specific batches, timing, contact.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           )}
 
-          {/* STEP 2 — Courses & Batches */}
+          {/* STEP 2 — Branches / Cities */}
           {step === 2 && (
             <div>
-              <h2 style={{ fontSize: 22, fontWeight: 800, color: '#0F172A', marginBottom: 4 }}>📚 Courses & Batches</h2>
-              <p style={{ color: '#64748B', fontSize: 14, marginBottom: 24 }}>Kaunse exams ke liye coaching, kab se batch, kitni seats</p>
-
-              {/* Exams */}
-              <div style={{ marginBottom: 24 }}>
-                <label style={labelStyle}>Exams Offered * <span style={{ color: '#94A3B8', fontWeight: 400 }}>(Sab select karo jo applicable ho)</span></label>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-                  {examOptions.map(exam => (
-                    <label key={exam} style={{
-                      display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer',
-                      padding: '8px 14px', borderRadius: 20,
-                      border: `1.5px solid ${form.exams.includes(exam) ? '#1E40AF' : '#E2E8F0'}`,
-                      background: form.exams.includes(exam) ? '#EFF6FF' : '#F8FAFC',
-                      color: form.exams.includes(exam) ? '#1E40AF' : '#374151',
-                      fontSize: 13, fontWeight: 500, transition: 'all 0.2s',
-                    }}>
-                      <input type="checkbox" checked={form.exams.includes(exam)} onChange={() => toggleExam(exam)} style={{ display: 'none' }} />
-                      {form.exams.includes(exam) ? '✓' : ''} {exam}
-                    </label>
-                  ))}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
+                <div>
+                  <h2 style={{ fontSize: 22, fontWeight: 800, color: '#0F172A', marginBottom: 4 }}>
+                    📍 {form.isChain ? 'Branch Cities' : 'Center Details'}
+                  </h2>
+                  <p style={{ color: '#64748B', fontSize: 14 }}>
+                    {form.isChain ? `${form.branches.length} branch(es) added — har city ka alag detail` : 'Your single center ka address aur details'}
+                  </p>
                 </div>
+                {form.isChain && (
+                  <button onClick={addBranch} style={{ padding: '10px 20px', background: 'linear-gradient(135deg, #1E40AF, #3B82F6)', color: '#fff', border: 'none', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700 }}>
+                    + Add Branch
+                  </button>
+                )}
               </div>
 
-              {/* Batches */}
-              <div style={{ marginBottom: 24 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-                  <label style={{ ...labelStyle, margin: 0 }}>Batch Details *</label>
-                  <button onClick={addBatch} style={{ padding: '6px 14px', background: '#EFF6FF', color: '#1E40AF', border: '1.5px solid #BFDBFE', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>+ Add Batch</button>
+              {/* Branch Tabs */}
+              {form.isChain && (
+                <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
+                  {form.branches.map((br, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
+                      <button onClick={() => setActiveBranch(i)} style={{
+                        padding: '8px 16px', borderRadius: '10px 0 0 10px', border: '1.5px solid',
+                        cursor: 'pointer', fontSize: 13, fontWeight: 600,
+                        borderColor: activeBranch === i ? '#1E40AF' : '#E2E8F0',
+                        background: activeBranch === i ? '#EFF6FF' : '#fff',
+                        color: activeBranch === i ? '#1E40AF' : '#374151',
+                      }}>
+                        {br.isHQ ? '⭐ HQ' : '📍'} {br.city || `Branch ${i + 1}`}
+                      </button>
+                      {!br.isHQ && (
+                        <button onClick={() => removeBranch(i)} style={{ padding: '8px 10px', border: '1.5px solid #E2E8F0', borderLeft: 'none', borderRadius: '0 10px 10px 0', background: '#FEF2F2', color: '#DC2626', cursor: 'pointer', fontSize: 12 }}>✕</button>
+                      )}
+                    </div>
+                  ))}
                 </div>
-                {form.batches.map((batch, i) => (
-                  <div key={i} style={{ background: '#F8FAFC', borderRadius: 14, padding: 20, marginBottom: 14, border: '1px solid #E2E8F0' }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: '#1E40AF', marginBottom: 12 }}>Batch {i + 1}</div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 12 }}>
-                      {[
-                        { key: 'name', label: 'Batch Name', placeholder: 'e.g. NEET Morning Batch' },
-                        { key: 'timing', label: 'Timing', placeholder: '7:00 AM – 10:00 AM' },
-                        { key: 'days', label: 'Days', placeholder: 'Mon–Sat' },
-                        { key: 'seats', label: 'Total Seats', placeholder: '40' },
-                        { key: 'startDate', label: 'Next Batch Start', placeholder: 'July 2025' },
-                      ].map(f => (
-                        <div key={f.key}>
-                          <label style={{ ...labelStyle, fontSize: 12 }}>{f.label}</label>
-                          <input value={batch[f.key]} onChange={e => updateBatch(i, f.key, e.target.value)} placeholder={f.placeholder} style={{ ...inputStyle, padding: '9px 12px', fontSize: 13 }} />
+              )}
+
+              {/* Branch Form */}
+              {form.branches.map((branch, branchIdx) => (
+                (form.isChain ? branchIdx === activeBranch : true) && (
+                  <div key={branchIdx}>
+                    {branch.isHQ && form.isChain && (
+                      <div style={{ background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: 10, padding: '8px 14px', marginBottom: 16, display: 'flex', gap: 8, alignItems: 'center' }}>
+                        <span style={{ fontSize: 16 }}>⭐</span>
+                        <span style={{ color: '#92400E', fontSize: 13, fontWeight: 600 }}>Headquarters / Main Center</span>
+                      </div>
+                    )}
+
+                    {/* Location Details */}
+                    <div style={{ background: '#F8FAFC', borderRadius: 14, padding: 20, marginBottom: 20, border: '1px solid #E2E8F0' }}>
+                      <h4 style={{ fontWeight: 700, color: '#0F172A', fontSize: 15, marginBottom: 14 }}>📍 Location Details</h4>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12 }}>
+                        <div>
+                          <label style={{ ...labelStyle, fontSize: 12 }}>City *</label>
+                          <select value={branch.city} onChange={e => updateBranchField(branchIdx, 'city', e.target.value)} style={{ ...inputStyle, padding: '9px 12px', fontSize: 13 }}>
+                            <option value="">Select City</option>
+                            {indianCities.map(c => <option key={c}>{c}</option>)}
+                          </select>
+                        </div>
+                        <div>
+                          <label style={{ ...labelStyle, fontSize: 12 }}>State *</label>
+                          <select value={branch.state} onChange={e => updateBranchField(branchIdx, 'state', e.target.value)} style={{ ...inputStyle, padding: '9px 12px', fontSize: 13 }}>
+                            <option value="">Select State</option>
+                            {indianStates.map(s => <option key={s}>{s}</option>)}
+                          </select>
+                        </div>
+                        <div>
+                          <label style={{ ...labelStyle, fontSize: 12 }}>Area / Locality *</label>
+                          <input value={branch.area} onChange={e => updateBranchField(branchIdx, 'area', e.target.value)} placeholder="e.g. Kothrud, Shivajinagar" style={{ ...inputStyle, padding: '9px 12px', fontSize: 13 }} />
+                        </div>
+                        <div>
+                          <label style={{ ...labelStyle, fontSize: 12 }}>Pincode</label>
+                          <input value={branch.pincode} onChange={e => updateBranchField(branchIdx, 'pincode', e.target.value)} placeholder="411001" style={{ ...inputStyle, padding: '9px 12px', fontSize: 13 }} />
+                        </div>
+                      </div>
+                      <div style={{ marginTop: 12 }}>
+                        <label style={{ ...labelStyle, fontSize: 12 }}>Full Address</label>
+                        <input value={branch.address} onChange={e => updateBranchField(branchIdx, 'address', e.target.value)} placeholder="Building, Street, Landmark" style={{ ...inputStyle, fontSize: 13 }} />
+                      </div>
+                    </div>
+
+                    {/* Contact for this branch */}
+                    <div style={{ background: '#F8FAFC', borderRadius: 14, padding: 20, marginBottom: 20, border: '1px solid #E2E8F0' }}>
+                      <h4 style={{ fontWeight: 700, color: '#0F172A', fontSize: 15, marginBottom: 14 }}>📞 Branch Contact</h4>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12 }}>
+                        {[
+                          { key: 'contactPerson', label: 'Branch Manager / Contact Person', placeholder: 'Name' },
+                          { key: 'phone', label: 'Branch Phone *', placeholder: '+91 XXXXX XXXXX' },
+                          { key: 'whatsapp', label: 'WhatsApp', placeholder: '+91 XXXXX XXXXX' },
+                          { key: 'email', label: 'Branch Email', placeholder: 'pune@institute.com' },
+                          { key: 'totalSeats', label: 'Total Capacity (seats)', placeholder: '200' },
+                          { key: 'established', label: 'Branch Established', placeholder: '2018' },
+                        ].map(f => (
+                          <div key={f.key}>
+                            <label style={{ ...labelStyle, fontSize: 12 }}>{f.label}</label>
+                            <input value={branch[f.key]} onChange={e => updateBranchField(branchIdx, f.key, e.target.value)} placeholder={f.placeholder} style={{ ...inputStyle, padding: '9px 12px', fontSize: 13 }} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Batches for this branch */}
+                    <div style={{ background: '#F8FAFC', borderRadius: 14, padding: 20, marginBottom: 20, border: '1px solid #E2E8F0' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+                        <h4 style={{ fontWeight: 700, color: '#0F172A', fontSize: 15 }}>📚 Batches at this Branch</h4>
+                        <button onClick={() => addBranchBatch(branchIdx)} style={{ padding: '6px 14px', background: '#EFF6FF', color: '#1E40AF', border: '1.5px solid #BFDBFE', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>+ Add Batch</button>
+                      </div>
+                      {branch.batches.map((batch, batchIdx) => (
+                        <div key={batchIdx} style={{ background: '#fff', borderRadius: 12, padding: 16, marginBottom: 10, border: '1px solid #E2E8F0' }}>
+                          <div style={{ fontSize: 12, fontWeight: 700, color: '#1E40AF', marginBottom: 10 }}>Batch {batchIdx + 1}</div>
+                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 10 }}>
+                            {[
+                              { key: 'name', label: 'Batch Name', placeholder: 'NEET Morning 2025' },
+                              { key: 'timing', label: 'Timing', placeholder: '7–10 AM' },
+                              { key: 'days', label: 'Days', placeholder: 'Mon–Sat' },
+                              { key: 'seats', label: 'Seats', placeholder: '40' },
+                              { key: 'startDate', label: 'Start Date', placeholder: 'July 2025' },
+                              { key: 'fee', label: 'Fee (₹)', placeholder: '85,000' },
+                            ].map(f => (
+                              <div key={f.key}>
+                                <label style={{ fontSize: 11, fontWeight: 600, color: '#374151', display: 'block', marginBottom: 4 }}>{f.label}</label>
+                                <input value={batch[f.key]} onChange={e => updateBranchBatch(branchIdx, batchIdx, f.key, e.target.value)} placeholder={f.placeholder} style={{ ...inputStyle, padding: '8px 10px', fontSize: 12 }} />
+                              </div>
+                            ))}
+                            <div>
+                              <label style={{ fontSize: 11, fontWeight: 600, color: '#374151', display: 'block', marginBottom: 4 }}>Mode</label>
+                              <select value={batch.mode} onChange={e => updateBranchBatch(branchIdx, batchIdx, 'mode', e.target.value)} style={{ ...inputStyle, padding: '8px 10px', fontSize: 12 }}>
+                                <option>Offline</option>
+                                <option>Online</option>
+                                <option>Offline + Online</option>
+                              </select>
+                            </div>
+                            <div>
+                              <label style={{ fontSize: 11, fontWeight: 600, color: '#374151', display: 'block', marginBottom: 4 }}>Exam</label>
+                              <select value={batch.exam} onChange={e => updateBranchBatch(branchIdx, batchIdx, 'exam', e.target.value)} style={{ ...inputStyle, padding: '8px 10px', fontSize: 12 }}>
+                                {examOptions.map(e => <option key={e}>{e}</option>)}
+                              </select>
+                            </div>
+                          </div>
                         </div>
                       ))}
-                      <div>
-                        <label style={{ ...labelStyle, fontSize: 12 }}>Mode</label>
-                        <select value={batch.mode} onChange={e => updateBatch(i, 'mode', e.target.value)} style={{ ...inputStyle, padding: '9px 12px', fontSize: 13 }}>
-                          <option>Offline</option>
-                          <option>Online</option>
-                          <option>Offline + Online</option>
-                        </select>
+                    </div>
+
+                    {/* Facilities for this branch */}
+                    <div>
+                      <label style={labelStyle}>Facilities at this Branch</label>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                        {facilityOptions.map(f => (
+                          <label key={f} style={{
+                            display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer',
+                            padding: '6px 12px', borderRadius: 20, fontSize: 12, fontWeight: 500,
+                            border: `1.5px solid ${branch.facilities.includes(f) ? '#059669' : '#E2E8F0'}`,
+                            background: branch.facilities.includes(f) ? '#F0FDF4' : '#F8FAFC',
+                            color: branch.facilities.includes(f) ? '#059669' : '#374151',
+                            transition: 'all 0.2s',
+                          }}>
+                            <input type="checkbox" checked={branch.facilities.includes(f)} onChange={() => toggleBranchFacility(branchIdx, f)} style={{ display: 'none' }} />
+                            {branch.facilities.includes(f) ? '✓ ' : ''}{f}
+                          </label>
+                        ))}
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                )
+              ))}
 
-              {/* Facilities */}
-              <div>
-                <label style={labelStyle}>Facilities Available</label>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-                  {facilityOptions.map(f => (
-                    <label key={f} style={{
-                      display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer',
-                      padding: '6px 12px', borderRadius: 20, fontSize: 12, fontWeight: 500,
-                      border: `1.5px solid ${form.facilities.includes(f) ? '#059669' : '#E2E8F0'}`,
-                      background: form.facilities.includes(f) ? '#F0FDF4' : '#F8FAFC',
-                      color: form.facilities.includes(f) ? '#059669' : '#374151',
-                      transition: 'all 0.2s',
-                    }}>
-                      <input type="checkbox" checked={form.facilities.includes(f)} onChange={() => toggleFacility(f)} style={{ display: 'none' }} />
-                      {form.facilities.includes(f) ? '✓ ' : ''}{f}
-                    </label>
-                  ))}
+              {/* Summary if chain */}
+              {form.isChain && form.branches.length > 1 && (
+                <div style={{ marginTop: 24, background: 'linear-gradient(135deg, #EFF6FF, #F0FDF4)', borderRadius: 14, padding: 20, border: '1px solid #BFDBFE' }}>
+                  <h4 style={{ fontWeight: 700, color: '#0F172A', fontSize: 15, marginBottom: 12 }}>🗺️ Your Coverage Map</h4>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                    {form.branches.map((br, i) => (
+                      <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#fff', borderRadius: 20, padding: '6px 14px', border: '1px solid #E2E8F0', fontSize: 13 }}>
+                        <span>{br.isHQ ? '⭐' : '📍'}</span>
+                        <span style={{ fontWeight: 600, color: '#0F172A' }}>{br.city || `Branch ${i+1}`}</span>
+                        {br.state && <span style={{ color: '#94A3B8', fontSize: 11 }}>, {br.state}</span>}
+                      </div>
+                    ))}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#1E40AF', borderRadius: 20, padding: '6px 14px', fontSize: 13 }}>
+                      <span style={{ color: '#fff', fontWeight: 700 }}>{form.branches.length} Cities Total</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
 
