@@ -12,6 +12,7 @@ const mockInstitutes = [
     area: 'Kothrud, Pune',
     city: 'Pune',
     exam: 'NEET',
+    coverImg: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=400&q=80',
     rating: 4.6,
     reviews: 234,
     fee: 85000,
@@ -169,11 +170,23 @@ function InstituteCard({ inst, onBook }) {
       onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 12px 28px rgba(0,0,0,0.1)' }}
       onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.05)' }}
     >
-      {/* Top Tag */}
-      <div style={{ background: inst.tagColor, padding: '6px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ color: '#fff', fontSize: 12, fontWeight: 700 }}>{inst.tag}</span>
-        <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: 12 }}>{inst.mode}</span>
-      </div>
+      {/* Cover Image */}
+      {inst.coverImg && (
+        <div style={{ height: 120, overflow: 'hidden', position: 'relative' }}>
+          <img src={inst.coverImg} alt={inst.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.5))' }} />
+          <div style={{ position: 'absolute', bottom: 8, left: 12, right: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+            <span style={{ background: inst.tagColor, color: '#fff', fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20 }}>{inst.tag}</span>
+            <span style={{ background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: 11, padding: '3px 8px', borderRadius: 20 }}>{inst.mode}</span>
+          </div>
+        </div>
+      )}
+      {!inst.coverImg && (
+        <div style={{ background: inst.tagColor, padding: '6px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ color: '#fff', fontSize: 12, fontWeight: 700 }}>{inst.tag}</span>
+          <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: 12 }}>{inst.mode}</span>
+        </div>
+      )}
 
       <div style={{ padding: 24 }}>
         {/* Header */}

@@ -14,27 +14,33 @@ export default function About() {
 
       {/* Story */}
       <section style={{ padding: '64px 24px' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 48, alignItems: 'center' }}>
-          <div style={{
-            background: 'linear-gradient(135deg, #1E40AF, #3B82F6)',
-            borderRadius: 20, padding: 40, color: '#fff', textAlign: 'center',
-          }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 48, alignItems: 'center' }}>
+          {/* Counselor Photo Card */}
+          <div style={{ position: 'relative' }}>
+            <div style={{ borderRadius: 24, overflow: 'hidden', boxShadow: '0 24px 48px rgba(0,0,0,0.15)' }}>
+              <img
+                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&q=85"
+                alt="Lead Counselor"
+                style={{ width: '100%', height: 420, objectFit: 'cover', display: 'block' }}
+              />
+              <div style={{ background: 'linear-gradient(135deg, #1E40AF, #3B82F6)', padding: '20px 24px' }}>
+                <h3 style={{ color: '#fff', fontWeight: 700, fontSize: 18, marginBottom: 4 }}>Our Lead Counselor</h3>
+                <p style={{ color: '#BFDBFE', fontSize: 13, marginBottom: 12 }}>10+ Years Teaching Experience · B.Ed, M.Ed</p>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  {['GCDF Certified', 'NCDA', 'Career Coach'].map(c => (
+                    <div key={c} style={{ background: 'rgba(255,255,255,0.15)', borderRadius: 20, padding: '4px 10px', fontSize: 11, fontWeight: 600, color: '#fff' }}>{c}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* Floating badge */}
             <div style={{
-              width: 100, height: 100, borderRadius: '50%',
-              background: 'rgba(255,255,255,0.2)',
-              margin: '0 auto 20px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 40,
-            }}>👩‍🏫</div>
-            <h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 6 }}>Our Lead Counselor</h3>
-            <p style={{ color: '#BFDBFE', fontSize: 15 }}>10+ Years Teaching Experience</p>
-            <div style={{ marginTop: 24, display: 'flex', gap: 16, justifyContent: 'center' }}>
-              {['GCDF', 'NCDA', 'M.Ed'].map(c => (
-                <div key={c} style={{
-                  background: 'rgba(255,255,255,0.15)', borderRadius: 8,
-                  padding: '6px 12px', fontSize: 12, fontWeight: 600,
-                }}>{c}</div>
-              ))}
+              position: 'absolute', top: 20, right: -16,
+              background: '#F59E0B', borderRadius: 14, padding: '10px 14px',
+              boxShadow: '0 8px 20px rgba(245,158,11,0.4)', color: '#fff', textAlign: 'center',
+            }}>
+              <div style={{ fontWeight: 800, fontSize: 22 }}>500+</div>
+              <div style={{ fontSize: 10, fontWeight: 600 }}>Students<br/>Guided</div>
             </div>
           </div>
 
@@ -50,6 +56,23 @@ export default function About() {
               Isiliye CareerDisha banaya — ek platform jahan certified counselors + technology milke students ki life changing decisions mein help kare. Transparency, ethics, aur genuine care hamara USP hai.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Gallery Strip */}
+      <section style={{ background: '#0F172A', padding: '40px 0', overflow: 'hidden' }}>
+        <div style={{ display: 'flex', gap: 12, padding: '0 24px' }}>
+          {[
+            'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=300&q=80',
+            'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=300&q=80',
+            'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=300&q=80',
+            'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=80',
+            'https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=300&q=80',
+          ].map((src, i) => (
+            <div key={i} style={{ flex: '0 0 220px', borderRadius: 14, overflow: 'hidden', height: 140 }}>
+              <img src={src} alt="students" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+          ))}
         </div>
       </section>
 

@@ -57,7 +57,10 @@ export default function ScholarshipFinder() {
     <div style={{ fontFamily: 'system-ui, sans-serif', background: '#F8FAFC', all: 'revert', fontFamily: 'system-ui, sans-serif' }}>
 
       {/* Hero */}
-      <section style={{ background: 'linear-gradient(135deg, #064E3B, #065F46)', padding: '56px 24px', textAlign: 'center' }}>
+      <section style={{ background: 'linear-gradient(135deg, #064E3B, #065F46)', padding: '56px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.07 }}>
+          <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&q=60" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
         <div style={{ display: 'inline-flex', gap: 8, alignItems: 'center', background: 'rgba(255,255,255,0.1)', borderRadius: 20, padding: '6px 16px', marginBottom: 16 }}>
           <span style={{ color: '#6EE7B7', fontSize: 13, fontWeight: 600 }}>🎓 Free Scholarship Discovery — No Middleman</span>
         </div>

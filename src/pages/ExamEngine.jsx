@@ -301,7 +301,10 @@ export default function ExamEngine() {
     <div style={{ fontFamily: 'system-ui, sans-serif', background: '#F8FAFC', color: '#1E293B', all: 'revert', fontFamily: 'system-ui, sans-serif' }}>
 
       {/* Hero */}
-      <section style={{ background: 'linear-gradient(135deg, #0F172A, #1E3A5F)', padding: '56px 24px', textAlign: 'center' }}>
+      <section style={{ background: 'linear-gradient(135deg, #0F172A, #1E3A5F)', padding: '56px 24px 0', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.08 }}>
+          <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=1200&q=60" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.3)', borderRadius: 20, padding: '6px 16px', marginBottom: 20 }}>
           <span style={{ color: '#F59E0B', fontSize: 13, fontWeight: 600 }}>🧠 India's Most Complete Exam Intelligence Platform</span>
         </div>

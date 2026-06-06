@@ -49,7 +49,10 @@ export default function Careers2030() {
     <div style={{ fontFamily: 'system-ui, sans-serif', background: '#F8FAFC', all: 'revert', fontFamily: 'system-ui, sans-serif' }}>
 
       {/* Hero */}
-      <section style={{ background: 'linear-gradient(135deg, #0F172A, #1E3A5F, #0F172A)', padding: '56px 24px', textAlign: 'center' }}>
+      <section style={{ background: 'linear-gradient(135deg, #0F172A, #1E3A5F, #0F172A)', padding: '56px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.07 }}>
+          <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=60" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
         <div style={{ display: 'inline-flex', gap: 8, alignItems: 'center', background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.3)', borderRadius: 20, padding: '6px 16px', marginBottom: 16 }}>
           <span style={{ color: '#F59E0B', fontSize: 13, fontWeight: 600 }}>🚀 Careers That Will Dominate 2030 India</span>
         </div>

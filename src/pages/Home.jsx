@@ -14,6 +14,7 @@ const services = [
     desc: 'Expert guidance for MBBS, BDS, BAMS aspirants. College selection, cutoff analysis & admission strategy.',
     color: '#EFF6FF',
     border: '#BFDBFE',
+    img: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&q=80',
   },
   {
     icon: '⚡',
@@ -21,6 +22,7 @@ const services = [
     desc: 'IIT/NIT branch selection, rank-based college prediction, and career roadmap for engineering aspirants.',
     color: '#FFFBEB',
     border: '#FDE68A',
+    img: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&q=80',
   },
   {
     icon: '🌍',
@@ -28,6 +30,7 @@ const services = [
     desc: 'Russia, Philippines, Georgia, Kazakhstan — complete guidance for international medical education.',
     color: '#ECFDF5',
     border: '#A7F3D0',
+    img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
   },
   {
     icon: '🎯',
@@ -35,6 +38,7 @@ const services = [
     desc: 'Science, Commerce or Arts? Data-driven stream selection for Class 9–10 students based on aptitude.',
     color: '#F5F3FF',
     border: '#DDD6FE',
+    img: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&q=80',
   },
   {
     icon: '🧠',
@@ -42,6 +46,7 @@ const services = [
     desc: 'Psychometric tests + expert analysis to identify your strengths, interests, and ideal career path.',
     color: '#FFF1F2',
     border: '#FECDD3',
+    img: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&q=80',
   },
   {
     icon: '💻',
@@ -49,6 +54,7 @@ const services = [
     desc: 'Live 1-on-1 video sessions from anywhere in India. Flexible scheduling, recorded sessions available.',
     color: '#F0FDF4',
     border: '#BBF7D0',
+    img: 'https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?w=400&q=80',
   },
 ]
 
@@ -66,6 +72,7 @@ const testimonials = [
     text: 'CareerDisha helped me understand which medical colleges to target after my NEET score. Got admission in my preferred college!',
     score: 'NEET Score: 620',
     avatar: 'PS',
+    photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80',
   },
   {
     name: 'Rahul Patil',
@@ -73,6 +80,7 @@ const testimonials = [
     text: 'I was confused between PCM and PCB. After the session, I was 100% clear. Now in IIT Bombay — couldn\'t be happier!',
     score: 'JEE Advanced: AIR 2840',
     avatar: 'RP',
+    photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&q=80',
   },
   {
     name: 'Sneha Desai',
@@ -80,6 +88,7 @@ const testimonials = [
     text: 'MBBS in Russia seemed risky but CareerDisha explained everything — fees, NMC approval, career prospects. Best decision!',
     score: 'MBBS, Russia',
     avatar: 'SD',
+    photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80',
   },
 ]
 
@@ -90,60 +99,132 @@ export default function Home() {
       {/* HERO */}
       <section style={{
         background: 'linear-gradient(135deg, #EFF6FF 0%, #fff 50%, #FFFBEB 100%)',
-        padding: '80px 24px 100px',
-        textAlign: 'center',
+        padding: '64px 24px 80px',
         position: 'relative',
         overflow: 'hidden',
       }}>
-        <div style={{ maxWidth: 800, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            background: '#EFF6FF', border: '1px solid #BFDBFE',
-            borderRadius: 20, padding: '6px 16px', marginBottom: 24,
-          }}>
-            <span style={{ width: 8, height: 8, background: '#22C55E', borderRadius: '50%', display: 'inline-block' }} />
-            <span style={{ fontSize: 13, color: '#1E40AF', fontWeight: 500 }}>Free Career Session Available Now</span>
+        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 48, alignItems: 'center', position: 'relative', zIndex: 1 }}>
+
+          {/* Left — Text */}
+          <div>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              background: '#EFF6FF', border: '1px solid #BFDBFE',
+              borderRadius: 20, padding: '6px 16px', marginBottom: 24,
+            }}>
+              <span style={{ width: 8, height: 8, background: '#22C55E', borderRadius: '50%', display: 'inline-block' }} />
+              <span style={{ fontSize: 13, color: '#1E40AF', fontWeight: 500 }}>Free Career Session Available Now</span>
+            </div>
+
+            <h1 style={{
+              fontSize: 'clamp(32px, 5vw, 56px)',
+              fontWeight: 800,
+              lineHeight: 1.15,
+              marginBottom: 20,
+              color: '#0F172A',
+              letterSpacing: '-1px',
+            }}>
+              Apna <span style={{ color: '#1E40AF' }}>Sahi Career</span> Chunno<br />
+              <span style={{ color: '#F59E0B' }}>Expert Guidance</span> ke Saath
+            </h1>
+
+            <p style={{ fontSize: 17, color: '#475569', lineHeight: 1.7, marginBottom: 32 }}>
+              NEET, JEE Advanced, Stream Selection, aur MBBS Abroad — 10+ years experience ke saath certified career counselor se milein. Class 9–12 students ke liye.
+            </p>
+
+            <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 28 }}>
+              <Link to="/book" style={{
+                padding: '15px 32px', borderRadius: 12,
+                background: 'linear-gradient(135deg, #1E40AF, #3B82F6)',
+                color: '#fff', textDecoration: 'none', fontWeight: 700, fontSize: 16,
+                boxShadow: '0 8px 24px rgba(30,64,175,0.35)',
+              }}>
+                Book Free Session →
+              </Link>
+              <Link to="/services" style={{
+                padding: '15px 32px', borderRadius: 12,
+                border: '2px solid #E2E8F0',
+                color: '#374151', textDecoration: 'none', fontWeight: 600, fontSize: 16,
+                background: '#fff',
+              }}>
+                Explore Services
+              </Link>
+            </div>
+
+            <p style={{ fontSize: 13, color: '#94A3B8' }}>
+              ✓ No payment required &nbsp;&nbsp; ✓ 30-min session &nbsp;&nbsp; ✓ Certified counselor
+            </p>
+
+            {/* Trust badges */}
+            <div style={{ display: 'flex', gap: 16, marginTop: 28, flexWrap: 'wrap' }}>
+              {[
+                { img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=36&h=36&fit=crop&q=80' },
+                { img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=36&h=36&fit=crop&q=80' },
+                { img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=36&h=36&fit=crop&q=80' },
+                { img: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=36&h=36&fit=crop&q=80' },
+                { img: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=36&h=36&fit=crop&q=80' },
+              ].map((a, i) => (
+                <img key={i} src={a.img} alt="student" style={{ width: 36, height: 36, borderRadius: '50%', border: '2px solid #fff', marginLeft: i > 0 ? -12 : 0, objectFit: 'cover', boxShadow: '0 2px 6px rgba(0,0,0,0.15)' }} />
+              ))}
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', marginLeft: 8 }}>
+                <div style={{ display: 'flex', gap: 2 }}>{[...Array(5)].map((_, i) => <span key={i} style={{ color: '#F59E0B', fontSize: 14 }}>★</span>)}</div>
+                <span style={{ fontSize: 12, color: '#64748B' }}>500+ students guided</span>
+              </div>
+            </div>
           </div>
 
-          <h1 style={{
-            fontSize: 'clamp(32px, 6vw, 60px)',
-            fontWeight: 800,
-            lineHeight: 1.15,
-            marginBottom: 24,
-            color: '#0F172A',
-            letterSpacing: '-1px',
-          }}>
-            Apna <span style={{ color: '#1E40AF' }}>Sahi Career</span> Chunno<br />
-            <span style={{ color: '#F59E0B' }}>Expert Guidance</span> ke Saath
-          </h1>
-
-          <p style={{ fontSize: 18, color: '#475569', lineHeight: 1.7, marginBottom: 40, maxWidth: 600, margin: '0 auto 40px' }}>
-            NEET, JEE Advanced, Stream Selection, aur MBBS Abroad — 10+ years experience ke saath certified career counselor se milein. Class 9–12 students ke liye.
-          </p>
-
-          <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/book" style={{
-              padding: '16px 36px', borderRadius: 12,
+          {/* Right — Hero Image */}
+          <div style={{ position: 'relative' }}>
+            <div style={{
+              borderRadius: 24,
+              overflow: 'hidden',
+              boxShadow: '0 32px 64px rgba(0,0,0,0.15)',
+              position: 'relative',
+            }}>
+              <img
+                src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=85"
+                alt="Students studying"
+                style={{ width: '100%', height: 420, objectFit: 'cover', display: 'block' }}
+              />
+              {/* Overlay card — top left */}
+              <div style={{
+                position: 'absolute', top: 20, left: 20,
+                background: '#fff', borderRadius: 14, padding: '12px 16px',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+                display: 'flex', alignItems: 'center', gap: 10,
+              }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: '#EFF6FF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🎯</div>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 13, color: '#0F172A' }}>NEET 2025</div>
+                  <div style={{ fontSize: 11, color: '#22C55E', fontWeight: 600 }}>Admission Confirmed ✓</div>
+                </div>
+              </div>
+              {/* Overlay card — bottom right */}
+              <div style={{
+                position: 'absolute', bottom: 20, right: 20,
+                background: '#fff', borderRadius: 14, padding: '12px 16px',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+                display: 'flex', alignItems: 'center', gap: 10,
+              }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: '#FFFBEB', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>⚡</div>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 13, color: '#0F172A' }}>JEE AIR 2840</div>
+                  <div style={{ fontSize: 11, color: '#1E40AF', fontWeight: 600 }}>IIT Bombay 🎓</div>
+                </div>
+              </div>
+            </div>
+            {/* Floating badge */}
+            <div style={{
+              position: 'absolute', top: -16, right: -16,
               background: 'linear-gradient(135deg, #1E40AF, #3B82F6)',
-              color: '#fff', textDecoration: 'none', fontWeight: 700, fontSize: 17,
-              boxShadow: '0 8px 24px rgba(30,64,175,0.35)',
-              transition: 'transform 0.2s',
+              borderRadius: '50%', width: 72, height: 72,
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 8px 20px rgba(30,64,175,0.4)', color: '#fff',
             }}>
-              Book Free Session →
-            </Link>
-            <Link to="/services" style={{
-              padding: '16px 36px', borderRadius: 12,
-              border: '2px solid #E2E8F0',
-              color: '#374151', textDecoration: 'none', fontWeight: 600, fontSize: 17,
-              background: '#fff',
-            }}>
-              Explore Services
-            </Link>
+              <div style={{ fontWeight: 800, fontSize: 16 }}>10+</div>
+              <div style={{ fontSize: 9, opacity: 0.9, textAlign: 'center', lineHeight: 1.2 }}>Years Exp</div>
+            </div>
           </div>
-
-          <p style={{ marginTop: 20, fontSize: 13, color: '#94A3B8' }}>
-            ✓ No payment required &nbsp;&nbsp; ✓ 30-min session &nbsp;&nbsp; ✓ Certified counselor
-          </p>
         </div>
 
         {/* Decorative blobs */}
@@ -195,19 +276,25 @@ export default function Home() {
               <div key={s.title} style={{
                 background: '#fff', borderRadius: 16,
                 border: `1px solid ${s.border}`,
-                padding: 28, transition: 'transform 0.2s, box-shadow 0.2s',
-                cursor: 'default',
+                overflow: 'hidden',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                cursor: 'default', padding: 0,
               }}
                 onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.1)' }}
                 onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}
               >
-                <div style={{
-                  width: 52, height: 52, borderRadius: 12,
-                  background: s.color, display: 'flex', alignItems: 'center',
-                  justifyContent: 'center', fontSize: 26, marginBottom: 16,
-                }}>{s.icon}</div>
-                <h3 style={{ fontWeight: 700, fontSize: 18, marginBottom: 10, color: '#0F172A' }}>{s.title}</h3>
-                <p style={{ color: '#64748B', lineHeight: 1.65, fontSize: 15 }}>{s.desc}</p>
+                {/* Service Image */}
+                <div style={{ height: 160, overflow: 'hidden', position: 'relative' }}>
+                  <img src={s.img} alt={s.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.35))' }} />
+                  <div style={{ position: 'absolute', bottom: 12, left: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>{s.icon}</div>
+                  </div>
+                </div>
+                <div style={{ padding: '20px 24px 24px' }}>
+                  <h3 style={{ fontWeight: 700, fontSize: 18, marginBottom: 8, color: '#0F172A' }}>{s.title}</h3>
+                  <p style={{ color: '#64748B', lineHeight: 1.65, fontSize: 14 }}>{s.desc}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -270,12 +357,7 @@ export default function Home() {
                   "{t.text}"
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <div style={{
-                    width: 44, height: 44, borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #1E40AF, #3B82F6)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: '#fff', fontWeight: 700, fontSize: 14,
-                  }}>{t.avatar}</div>
+                  <img src={t.photo} alt={t.name} style={{ width: 48, height: 48, borderRadius: '50%', objectFit: 'cover', border: '2px solid #E2E8F0' }} />
                   <div>
                     <div style={{ fontWeight: 600, color: '#0F172A', fontSize: 15 }}>{t.name}</div>
                     <div style={{ fontSize: 13, color: '#94A3B8' }}>{t.location} · {t.score}</div>
