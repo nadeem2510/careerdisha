@@ -182,7 +182,7 @@ export default function Home() {
               position: 'relative',
             }}>
               <img
-                src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=85"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Berea_College_20101205_StudentsOnCampus_LS_%2820554604349%29.jpg/960px-Berea_College_20101205_StudentsOnCampus_LS_%2820554604349%29.jpg"
                 alt="Students studying"
                 style={{ width: '100%', height: 420, objectFit: 'cover', display: 'block' }}
               />
