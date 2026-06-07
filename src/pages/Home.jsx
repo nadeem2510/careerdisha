@@ -107,13 +107,22 @@ export default function Home() {
 
           {/* Left — Text */}
           <div>
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              background: '#EFF6FF', border: '1px solid #BFDBFE',
-              borderRadius: 20, padding: '6px 16px', marginBottom: 24,
-            }}>
-              <span style={{ width: 8, height: 8, background: '#22C55E', borderRadius: '50%', display: 'inline-block' }} />
-              <span style={{ fontSize: 13, color: '#1E40AF', fontWeight: 500 }}>Free Career Session Available Now</span>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 24 }}>
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                background: '#EFF6FF', border: '1px solid #BFDBFE',
+                borderRadius: 20, padding: '6px 16px',
+              }}>
+                <span style={{ width: 8, height: 8, background: '#22C55E', borderRadius: '50%', display: 'inline-block' }} />
+                <span style={{ fontSize: 13, color: '#1E40AF', fontWeight: 500 }}>Free Career Session Available Now</span>
+              </div>
+              <Link to="/transparency" style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                background: '#FFFBEB', border: '1px solid #FDE68A',
+                borderRadius: 20, padding: '6px 16px', textDecoration: 'none',
+              }}>
+                <span style={{ fontSize: 13, color: '#B45309', fontWeight: 600 }}>🛡️ India's First Transparent Career Marketplace</span>
+              </Link>
             </div>
 
             <h1 style={{

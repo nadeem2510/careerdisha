@@ -49,7 +49,7 @@ export default function Footer() {
           {/* Quick Links */}
           <div>
             <h4 style={{ color: '#fff', fontWeight: 600, marginBottom: 16, fontSize: 16 }}>Quick Links</h4>
-            {[['Home', '/'], ['About Us', '/about'], ['Book Session', '/book'], ['Contact', '/contact']].map(([label, to]) => (
+            {[['Home', '/'], ['About Us', '/about'], ['🛡️ Our Transparency Promise', '/transparency'], ['Book Session', '/book'], ['Contact', '/contact']].map(([label, to]) => (
               <div key={label} style={{ marginBottom: 10 }}>
                 <Link to={to} style={{ color: '#94A3B8', textDecoration: 'none', fontSize: 14 }}
                   onMouseEnter={e => e.target.style.color = '#F59E0B'}
