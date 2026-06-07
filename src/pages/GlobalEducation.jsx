@@ -112,6 +112,7 @@ const programs = [
   },
   {
     id: 6, category: 'engineering', level: 'After Graduation',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Stanford_University_campus_from_above.jpg/960px-Stanford_University_campus_from_above.jpg',
     title: 'MS in USA (STEM OPT)', flag: '🇺🇸', country: 'USA',
     duration: '1.5-2 years', cost: '₹30–80L total', costPY: '₹20–50L/year',
     known: 65, demand: 'Very High', prPath: false,
@@ -143,6 +144,7 @@ const programs = [
   },
   {
     id: 8, category: 'engineering', level: 'After Graduation',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/University_of_Toronto_aerial_view.jpg/960px-University_of_Toronto_aerial_view.jpg',
     title: 'MS in Canada + PR', flag: '🇨🇦', country: 'Canada',
     duration: '2 years', cost: '₹25–50L total', costPY: '₹15–25L/year',
     known: 52, demand: 'High', prPath: true,
@@ -175,6 +177,7 @@ const programs = [
   },
   {
     id: 10, category: 'management', level: 'After Graduation',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/9/9b/NUS_Law_Campus.jpg',
     title: 'PGDM / MBA in Singapore', flag: '🇸🇬', country: 'Singapore',
     duration: '1-2 years', cost: '₹40–80L', costPY: '₹40–80L total',
     known: 25, demand: 'Growing', prPath: true,
@@ -351,6 +354,7 @@ const programs = [
   // ─── LAW ───
   {
     id: 21, category: 'law', level: 'After Graduation',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Radcliffe_Camera%2C_Oxford%2C_UK.jpg/960px-Radcliffe_Camera%2C_Oxford%2C_UK.jpg',
     title: 'LLM from UK / USA', flag: '🇬🇧🇺🇸', country: 'UK / USA',
     duration: '1 year (UK) / 1-2 years (USA)', cost: '₹30–80L', costPY: '₹30-80L total',
     known: 32, demand: 'Growing', prPath: true,
@@ -398,6 +402,7 @@ const programs = [
   },
   {
     id: 24, category: 'unique', level: 'After Graduation',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Kings_College_Chapel%2C_Cambridge%2C_July_2010_%2801%29.JPG/960px-Kings_College_Chapel%2C_Cambridge%2C_July_2010_%2801%29.JPG',
     title: 'Chevening Scholarship — UK', flag: '🇬🇧', country: 'UK',
     duration: '1 year Masters', cost: 'FULLY FUNDED', costPY: 'FREE + £1,236/month',
     known: 15, demand: 'Steady', prPath: false,
@@ -633,6 +638,12 @@ export default function GlobalEducation() {
               transition: 'all 0.2s',
               boxShadow: selected === p.id ? '0 0 0 3px rgba(245,158,11,0.2)' : 'none',
             }}>
+              {/* Real campus photo thumbnail, when available */}
+              {p.image && (
+                <div style={{ width: '100%', height: 110, overflow: 'hidden' }}>
+                  <img src={p.image} alt={p.title + ' campus'} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                </div>
+              )}
               {/* Tag bar */}
               <div style={{ background: p.tagColor, padding: '6px 14px', display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: '#fff', fontSize: 11, fontWeight: 700 }}>{p.tag}</span>
@@ -683,6 +694,12 @@ export default function GlobalEducation() {
         {/* DETAIL PANEL */}
         {prog && (
           <div style={{ background: '#1E293B', borderRadius: 20, border: '1px solid #334155', overflow: 'hidden', position: 'sticky', top: 120, maxHeight: '80vh', overflowY: 'auto', height: 'fit-content' }}>
+            {/* Real campus photo, when available */}
+            {prog.image && (
+              <div style={{ width: '100%', height: 160, overflow: 'hidden' }}>
+                <img src={prog.image} alt={prog.title + ' campus'} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              </div>
+            )}
             {/* Header */}
             <div style={{ background: `linear-gradient(135deg, ${prog.tagColor}, ${prog.tagColor}99)`, padding: '24px 24px 0' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
