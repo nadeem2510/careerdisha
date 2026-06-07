@@ -17,6 +17,7 @@ import Dashboard from './pages/Dashboard'
 import ParentPortal from './pages/ParentPortal'
 import AdminPanel from './pages/AdminPanel'
 import InstituteRegister from './pages/InstituteRegister'
+import GlobalEducation from './pages/GlobalEducation'
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="/parents" element={<ParentPortal />} />
           <Route path="/admin" element={<AdminPanel />} />
           <Route path="/institute/register" element={<InstituteRegister />} />
+          <Route path="/global-education" element={<GlobalEducation />} />
         </Routes>
         <Footer />
       </div>

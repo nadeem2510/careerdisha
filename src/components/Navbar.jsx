@@ -8,6 +8,7 @@ const links = [
   { to: '/classes', label: '🏫 Classes' },
   { to: '/scholarships', label: '🎓 Scholarships' },
   { to: '/careers2030', label: '🚀 Careers 2030' },
+  { to: '/global-education', label: '🌍 Global Education' },
   { to: '/wellbeing', label: '💚 Wellbeing' },
   { to: '/parents', label: '👨‍👩‍👧 Parents' },
   { to: '/about', label: 'About' },
