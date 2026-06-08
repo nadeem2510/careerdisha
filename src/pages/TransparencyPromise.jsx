@@ -65,7 +65,7 @@ export default function TransparencyPromise() {
           }}>
             <span style={{ fontSize: 13, color: '#F59E0B', fontWeight: 600 }}>🛡️ India's First Transparent Career Marketplace</span>
           </div>
-          <h1 style={{ fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 800, lineHeight: 1.2, marginBottom: 20, letterSpacing: '-1px' }}>
+          <h1 style={{ fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 800, lineHeight: 1.2, marginBottom: 20, letterSpacing: '-1px', color: '#fff' }}>
             Hum Sponsored aur Genuine Recommendation mein <span style={{ color: '#F59E0B' }}>Kabhi Confuse Nahi Karte</span>
           </h1>
           <p style={{ fontSize: 17, color: '#CBD5E1', lineHeight: 1.8 }}>
